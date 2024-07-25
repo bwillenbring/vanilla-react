@@ -16,9 +16,9 @@ interface UseArgs {
 const config: Config<UseArgs> = {
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.baseUrl ?? "http://localhost:3000",
-    trace: 'on-first-retry',
-    video: 'off',
+    baseURL: process.env.baseUrl ?? "http://localhost:9000",
+    trace: "on-first-retry",
+    video: "off",
     permissions: ["clipboard-read", "clipboard-write"],
   },
   testDir: "./tests_e2e",
