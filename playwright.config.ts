@@ -22,7 +22,7 @@ const config: Config<UseArgs> = {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.baseUrl ?? "http://localhost:9000",
     trace: "on-first-retry",
-    video: "off",
+    video: "on",
     permissions: ["clipboard-read", "clipboard-write"],
   },
   testDir: "./tests_e2e",
