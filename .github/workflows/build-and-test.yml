@@ -8,6 +8,13 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+
+    services:
+      xvfb:
+        image: cirrusci/xvfb-service
+        options: --privileged
+
+
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4

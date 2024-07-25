@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "echo 'Starting server...' && react-scripts start && echo 'Server started.'",
     "build": "react-scripts build",
     "test:unit": "jest",
     "test:e2e": "start-server-and-test start http://localhost:3000 'npx playwright test'",
