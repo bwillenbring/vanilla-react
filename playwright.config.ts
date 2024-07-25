@@ -14,6 +14,10 @@ interface UseArgs {
 }
 
 const config: Config<UseArgs> = {
+  reporter: [
+    ["html", { open: "never" }],
+    ["json", { outputFile: "./playwright-report/test-results.json" }],
+  ],
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.baseUrl ?? "http://localhost:9000",
