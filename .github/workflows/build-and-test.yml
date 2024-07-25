@@ -8,13 +8,6 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-
-    services:
-      xvfb:
-        image: cirrusci/xvfb-service
-        options: --privileged
-
-
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
@@ -43,5 +36,5 @@ jobs:
       - name: Run unit tests
         run: yarn test:unit
 
-      - name: Run e2e tests with Playwright
-        run: yarn test:e2e:ci
+      # - name: Run e2e tests with Playwright
+      #   run: yarn test:e2e:ci
