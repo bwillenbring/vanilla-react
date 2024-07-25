@@ -8,7 +8,7 @@
     "build": "react-scripts build",
     "test:unit": "jest",
     "test:e2e": "start-server-and-test start http://localhost:3000 'npx playwright test'",
-    "test:e2e:ci": "start-server-and-test start http://localhost:3000 'xvfb-run npx playwright test'",
+    "test:e2e:ci": "start-server-and-test start http://localhost:3000 --wait-on-timeout 30000 'xvfb-run npx playwright test'"
     "tsc": "tsc"
   },
   "dependencies": {
