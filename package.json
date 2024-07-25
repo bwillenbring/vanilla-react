@@ -8,6 +8,7 @@
     "build": "react-scripts build",
     "test:unit": "jest",
     "test:e2e": "concurrently -k -s first \"yarn start\" \"wait-on http://localhost:3000 && xvfb-run npx playwright test\"",
+    "test:e2e:ci": "start-server-and-test start http://localhost:3000 'xvfb-run npx playwright test'",
     "tsc": "tsc"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "concurrently": "^8.2.2",
     "depcheck": "^1.4.7",
     "jsdom": "^24.1.1",
+    "start-server-and-test": "^2.0.4",
     "ts-jest": "^29.2.3",
     "ts-node": "^10.9.2",
     "wait-on": "^7.2.0"
