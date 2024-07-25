@@ -8,6 +8,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    timeout-minutes: 7
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,4 +34,4 @@ jobs:
         run: yarn test:unit
 
       - name: Run e2e tests with Playwright
-        run: yarn test:e2e
+        run: yarn test:e2e:ci
