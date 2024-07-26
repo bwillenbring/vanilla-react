@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import {App} from "./App";
+import { render, screen } from "@testing-library/react";
+import { App } from "./App";
 
 describe("App component rendering", () => {
   test("renders App", () => {
