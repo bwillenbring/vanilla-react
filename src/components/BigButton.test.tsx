@@ -10,7 +10,7 @@ const customRules: axe.Spec = {
   checks: [
     {
       id: "has-test-selector",
-      evaluate: (node) => {
+      evaluate: (node: Element) => {
         return node.getAttribute("data-testid") !== null &&
           node.getAttribute("data-testid")!.length > 3
           ? true
