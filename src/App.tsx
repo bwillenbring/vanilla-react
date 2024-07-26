@@ -65,6 +65,21 @@ function App() {
           onClick={throwError}
         />
       </div>
+
+      <div data-testid="testcase-console-log">
+        <h1>
+          <code>console.log()</code>
+        </h1>
+        <BigButton
+          label="console.log()"
+          data-testid="console-log"
+          color="#999999"
+          language="es"
+          onClick={() =>
+            console.log("Katie poured coffee on father's grey suit.")
+          }
+        />
+      </div>
     </div>
   );
 }
