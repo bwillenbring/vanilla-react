@@ -15,17 +15,23 @@ const translations: { [key: string]: string } = {
 };
 
 const BigButton: React.FC<BigButtonProps> = ({ label, color, language, onClick, ...props }) => {
-  const dataTestId = props['data-testid'] ? `big-button-${props['data-testid']}` : 'big-button';
+  const dataTestId = props["data-testid"]
+    ? `big-button-${props["data-testid"]}`
+    : "big-button";
+
   return (
-    <button value={label + '?'}
+    <button
+      name={`button-${label}`}
+      value={label + "?"}
       style={{ backgroundColor: color }}
       className="btn btn-primary"
-      onClick={onClick} 
+      onClick={onClick}
       {...props} // Spread the remaining props here
-      data-testid={dataTestId} 
+      data-testid={dataTestId}
       data-language={language}
       data-translation={translations[language] || label}
-    >{label}
+    >
+      {label}
     </button>
   );
 };

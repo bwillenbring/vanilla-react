@@ -1,8 +1,9 @@
 name: Build and Test
 on:
-  push:
+  pull_request:
     branches:
       - main
+  push: 
 
 jobs:
   test:
@@ -34,7 +35,7 @@ jobs:
         run: yarn build
 
       - name: Run unit tests
-        run: yarn test:unit
+        run: yarn test:unit --verbose
 
       - name: Run e2e tests with Playwright
         run: yarn test:e2e:ci
