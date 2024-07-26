@@ -81,9 +81,6 @@ describe("BigButton component rendering", () => {
     // Assert on text content on bgcolor
     expect(component).toHaveTextContent("Click Me");
     expect(component).toHaveStyle("background-color: #007bff");
-
-    // console.log the component's html
-    console.log(component.outerHTML);
   });
 
   test("ensures the onClick function is called when the button is clicked", () => {
