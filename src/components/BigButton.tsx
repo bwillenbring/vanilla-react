@@ -5,7 +5,7 @@ interface BigButtonProps {
   color: string;
   language: string;
   onClick: () => void;
-  [key: string]: any; // Allows for any arbitrary props
+  [key: string]: unknown;
 }
 
 const translations: { [key: string]: string } = {

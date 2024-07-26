@@ -30,11 +30,14 @@ jobs:
         run: |
           yarn
           yarn playwright install chromium --with-deps
+      
+      - name: Lint 
+        run: yarn lint
 
       - name: Build the app 
         run: yarn build
 
-      - name: Run unit tests
+      - name: Run unit tests with Jest
         run: yarn test:unit --verbose
 
       - name: Run e2e tests with Playwright
