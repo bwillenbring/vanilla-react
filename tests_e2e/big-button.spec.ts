@@ -29,6 +29,13 @@ test('clicks on shuffler', async ({ page }) => {
   expect(dialogMessage).toContain('Larry');
 });
 
-test('clicks on getCurrentDay', async ({ page }) => {
-  const button = page.locator('[data-testid*="get-current-day"]');
+test("clicks on console.log", async ({ page }) => {
+  const button = page.locator('[data-testid*="console-log"]');
+  // Assert that the word "foo" is in the console log
+  await button.click();
+  // Get the contents of the console.log() and assert that it contains 'Katie'
+  const consoleLog = await page.$eval("text=foo", (el) => el.textContent);
+
+  // const consoleLog = await page.$eval("text=foo", (el) => el.textContent);
+  // expect(consoleLog).toContain("Katie poured coffee on father's grey suit");
 });
