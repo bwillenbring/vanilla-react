@@ -11,8 +11,7 @@
     "test:e2e": "yarn build && start-server-and-test serve http://localhost:9000 'npx playwright test'",
     "test:e2e:ci": "start-server-and-test serve http://localhost:9000 'xvfb-run npx playwright test'",
     "tsc": "tsc",
-    "lint": "npx eslint . --ext *.ts",
-    "lint:fix": "yarn eslint -c *.ts *.tsx --fix"
+    "lint": "yarn eslint"
   },
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
