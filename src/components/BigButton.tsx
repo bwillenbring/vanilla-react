@@ -5,8 +5,7 @@ interface BigButtonProps {
   color: string;
   language: string;
   onClick: () => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any; // Allows for any arbitrary props
+  [key: string]: unknown;
 }
 
 const translations: { [key: string]: string } = {
