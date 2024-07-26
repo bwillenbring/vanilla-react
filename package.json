@@ -8,7 +8,7 @@
     "build": "react-scripts build",
     "serve": "serve -s build -l 9000",
     "test:unit": "jest",
-    "test:e2e": "start-server-and-test serve http://localhost:9000 'npx playwright test'",
+    "test:e2e": "yarn build && start-server-and-test serve http://localhost:9000 'npx playwright test'",
     "test:e2e:ci": "start-server-and-test serve http://localhost:9000 'xvfb-run npx playwright test'",
     "tsc": "tsc"
   },
