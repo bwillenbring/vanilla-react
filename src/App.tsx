@@ -3,34 +3,44 @@ import { BigButton } from "./components/BigButton";
 import { getCurrentDay, shuffle, displayAlert, throwError } from "./utils";
 
 const handleClick1 = (): void => {
-  const testArray = ["Larry", "Curly", "Moe", "Shemp"];
-  const retValue = JSON.stringify(shuffle(testArray));
-  alert(retValue);
+  const testArray = ["Larry", "Moe", "Curly"];
+  const shuffledArray = shuffle(testArray);
+  const retValue = `The 3 stooges were: ${shuffledArray.join(", ")}`;
+  // Set the textarea value to the shuffled array
+  const textArea = document.querySelector(
+    "[data-testid='textarea-big-button-shuffler']"
+  );
+  if (textArea) {
+    textArea.textContent = retValue;
+  }
+
+  // Get the button element and set its min-width to 400px
+  const btn = document.querySelector("[data-testid='big-button-shuffler']");
+  if (btn) {
+    btn.setAttribute("style", "min-width: 400px;");
+  }
 };
 const handleClick2 = (): void => {
   alert(getCurrentDay());
 };
 
 function App() {
+  const multilineLabel = `This
+  is a multi-line
+  piece of text.`;
   return (
     <div className="container">
       <div data-testid="testcase-shuffler">
-        <h1>
-          <code>shuffle()</code>
-        </h1>
         <BigButton
-          label="shuffle()"
+          label={multilineLabel}
+          color="rgb(0, 0, 0)"
           data-testid="shuffler"
-          color="green"
           language="en"
           onClick={handleClick1}
         />
       </div>
 
       <div data-testid="testcase-get-current-day">
-        <h1>
-          <code>getCurrentDay()</code>
-        </h1>
         <BigButton
           label="getCurrentDay()"
           data-testid="get-current-day"
@@ -41,9 +51,6 @@ function App() {
       </div>
 
       <div data-testid="testcase-display-alert">
-        <h1>
-          <code>displayAlert()</code>
-        </h1>
         <BigButton
           label="displayAlert()"
           data-testid="display-alert"
@@ -54,9 +61,6 @@ function App() {
       </div>
 
       <div data-testid="testcase-throw-error">
-        <h1>
-          <code>throwError()</code>
-        </h1>
         <BigButton
           label="throwError()"
           data-testid="throw-error"
@@ -67,9 +71,6 @@ function App() {
       </div>
 
       <div data-testid="testcase-console-log">
-        <h1>
-          <code>console.log()</code>
-        </h1>
         <BigButton
           label="console.log()"
           data-testid="console-log"
