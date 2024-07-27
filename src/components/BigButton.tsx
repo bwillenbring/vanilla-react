@@ -113,7 +113,7 @@ const BigButton: React.FC<BigButtonProps> = ({
           disabled={clickCount >= maxClicks}
           name={`button-${label}`}
           aria-label={label}
-          value={label + "?"}
+          value={label}
           {...props} // Spread the remaining props here
           className="btn btn-primary inline-block text-truncate"
           style={{
