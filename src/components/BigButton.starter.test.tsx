@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BigButton, BigButtonProps } from "./BigButton";
 import { displayAlert, shuffle, getCurrentDay, throwError } from "../utils";
