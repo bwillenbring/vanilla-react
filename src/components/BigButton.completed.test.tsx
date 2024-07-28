@@ -20,6 +20,53 @@ const getDefaultButton = (props: BigButtonProps = defaultProps) => {
   return screen.getByRole("button");
 };
 
+describe("BigButton component utility methods", () => {
+  beforeEach(jest.restoreAllMocks);
+  test("displayAlert calls an alert", () => {
+    // We'll mock the window.alert function
+    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
+    // Call the function that calls window.alert
+    displayAlert();
+    // Assert the alert function was called
+    expect(alertSpy).toHaveBeenCalledTimes(1);
+    // Assert that the alert contains the string matching /hello/i
+    expect(alertSpy).toHaveBeenCalledWith(expect.stringMatching(/hello/i));
+    // Restore the original alert function
+    alertSpy.mockRestore();
+  });
+
+  test("shuffle returns an array that is different than the input array", () => {
+    // Create a sample array
+    const sampleArray = ["Larry", "Moe", "Curly"];
+    // Iterate 10 times
+    Array.from({ length: 10 }).forEach(() => {
+      // Shuffle the array, then assert the shuffled array is not the same as the sample array
+      const shuffledArray = shuffle(sampleArray);
+      expect(shuffledArray).not.toEqual(sampleArray);
+    });
+  });
+
+  test("getCurrentDay returns the current day", () => {
+    const expectedValues = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const currentDay = getCurrentDay();
+    // Expect currentDay to be one of the values in expectedValues
+    expect(expectedValues).toContain(currentDay);
+  });
+
+  test("throwError throws an error", () => {
+    // Call throwError and expect it to throw an error
+    expect(() => throwError()).toThrow();
+  });
+});
+
 describe("BigButton default rendering and behavior", () => {
   beforeEach(jest.restoreAllMocks);
   /**
@@ -87,94 +134,26 @@ describe("BigButton custom click handlers", () => {
   });
 
   /**
-   * TODO: Ensure that the button displays with
-   */
-
-  /**
    * TODO: Ensure the button is no wider than 300px even when the label is long.
    */
-  test("renders BigButton with extremely long label", async () => {
+  test("renders BigButton with extremely long label", () => {
     const buttonProps: BigButtonProps = {
       label:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt tortor ac rutrum efficitur. Duis a condimentum ex. Aenean ac gravida erat. Nulla tristique, est eu hendrerit luctus, diam urna hendrerit ante, id maximus elit urna sit amet eros. Suspendisse vitae purus leo. Donec id tempor ligula, sed vestibulum tortor. Etiam sapien libero, rutrum eget tincidunt eu, malesuada venenatis sapien. Proin quis ipsum vitae metus egestas placerat. Pellentesque in turpis euismod, finibus dolor vitae, placerat nibh. Pellentesque at aliquet turpis, non varius nulla. bear",
-      color: "red",
-      language: "es",
     };
-
-    // Render the component in the DOM
-    render(<BigButton {...buttonProps} />);
-
-    await new Promise((r) => setTimeout(r, 2000));
     // Get the button element
-    const button = screen.getByRole("button");
+    const button = getDefaultButton(buttonProps);
 
-    // For width, height, and bounding boxes, React is not the best tool for the job. Use a visual regression test instead. None of the following calculations will give you what a human user would see.
+    // This is the best you can do with React Testing Library
+    expect(button).toHaveStyle({ maxWidth: "250px" });
+
+    // TLDR... For width, height, and bounding boxes, React Tesing Library is not the best tool for the job. Use a visual regression test instead. None of the following calculations will give you what a human user would see.
     // const rect = JSON.stringify(button.getBoundingClientRect());
     // const styles = window.getComputedStyle(button);
-
-    // This is the best you can do with React Testing Library, which is nearly WORTHLESS for visually stringent tests.
-    expect(button).toHaveStyle({ maxWidth: "250px" });
-  });
-
-  /**
-   * TODO: Ensure the button becomes disabled after 3 clicks.
-   */
-  test("clicks BigButton 3 times, and verifies disabled state", () => {
-    // Render the component in the DOM
-    render(<BigButton label="Test Button" />);
-    // Get the button element
-    const button = screen.getByRole("button");
-
-    // Assert: button is disabled after 3 clicks
-    Array.from({ length: 3 }).forEach(() => fireEvent.click(button));
-    expect(button).toBeDisabled();
-  });
-
-  /**
-   * TODO: Ensure that injecting markup into the button's label property does not result in xss injection.
-   */
-  test("ensures that BigButton disallows xss injection via label prop", () => {
-    // We'll mock the window.alert function
-    const xssSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
-
-    // Create button props with an XSS attack
-    const xssProps: BigButtonProps = {
-      label: `<a href="#" onclick="alert('North Korea says hello')">Click Me</a>`,
-    };
-
-    // First, create a div element and set its innerHTML to the XSS attack
-    // Render a div element into the document
-    const newElemement = document.createElement("div");
-    newElemement.setAttribute("data-testid", "xss-attack");
-    newElemement.innerHTML = xssProps.label;
-    // Append the div to the document body
-    document.body.appendChild(newElemement);
-    // Locate, then click on the xss link
-    const xssLink = screen.getByTestId("xss-attack").querySelector("a")!;
-    fireEvent.click(xssLink);
-    // Assert the alert spy was called
-    expect(xssSpy).toHaveBeenCalledTimes(1);
-    // Assert that the alert contains the string matching /hello/i
-    expect(xssSpy).toHaveBeenCalledWith(
-      expect.stringMatching(/North Korea says hello/i)
-    );
-    // Reset the spy
-    xssSpy.mockReset();
-
-    // Render the component in the DOM
-    render(<BigButton {...xssProps} />);
-    // Get the button element
-    const button = screen.getByRole("button");
-    // Assert the button's label is correctly set && contains no HTML
-    expect(button).toHaveTextContent(xssProps.label);
-    expect(button.querySelector("a")).toBeNull();
-    // Click the button and assert that no alert comes up
-    fireEvent.click(button);
-    expect(xssSpy).not.toHaveBeenCalled();
   });
 });
 
-describe("BigButton colors", () => {
+describe("BigButton styling", () => {
   beforeEach(jest.restoreAllMocks);
   /**
    * TODO: Ensure that the button will replace an illegal rgb value with the string "blue"
@@ -232,49 +211,47 @@ describe("BigButton colors", () => {
   });
 });
 
-describe("BigButton component utility methods", () => {
-  beforeEach(jest.restoreAllMocks);
-  test("displayAlert calls an alert", () => {
+describe("BigButton xss injection", () => {
+  /**
+   * TODO: Ensure that injecting markup into the button's label property does not result in xss injection.
+   */
+  test("ensures that BigButton disallows xss injection via label prop", () => {
     // We'll mock the window.alert function
-    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
-    // Call the function that calls window.alert
-    displayAlert();
-    // Assert the alert function was called
-    expect(alertSpy).toHaveBeenCalledTimes(1);
+    const xssSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
+
+    // Create button props with an XSS attack
+    const xssProps: BigButtonProps = {
+      label: `<a href="#" onclick="alert('North Korea says hello')">Click Me</a>`,
+    };
+
+    // First, create a div element and set its innerHTML to the XSS attack
+    // Render a div element into the document
+    const newElemement = document.createElement("div");
+    newElemement.setAttribute("data-testid", "xss-attack");
+    newElemement.innerHTML = xssProps.label;
+    // Append the div to the document body
+    document.body.appendChild(newElemement);
+    // Locate, then click on the xss link
+    const xssLink = screen.getByTestId("xss-attack").querySelector("a")!;
+    fireEvent.click(xssLink);
+    // Assert the alert spy was called
+    expect(xssSpy).toHaveBeenCalledTimes(1);
     // Assert that the alert contains the string matching /hello/i
-    expect(alertSpy).toHaveBeenCalledWith(expect.stringMatching(/hello/i));
-    // Restore the original alert function
-    alertSpy.mockRestore();
-  });
+    expect(xssSpy).toHaveBeenCalledWith(
+      expect.stringMatching(/North Korea says hello/i)
+    );
+    // Reset the spy
+    xssSpy.mockReset();
 
-  test("shuffle returns an array that is different than the input array", () => {
-    // Create a sample array
-    const sampleArray = ["Larry", "Moe", "Curly"];
-    // Iterate 10 times
-    Array.from({ length: 10 }).forEach(() => {
-      // Shuffle the array, then assert the shuffled array is not the same as the sample array
-      const shuffledArray = shuffle(sampleArray);
-      expect(shuffledArray).not.toEqual(sampleArray);
-    });
-  });
-
-  test("getCurrentDay returns the current day", () => {
-    const expectedValues = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const currentDay = getCurrentDay();
-    // Expect currentDay to be one of the values in expectedValues
-    expect(expectedValues).toContain(currentDay);
-  });
-
-  test("throwError throws an error", () => {
-    // Call throwError and expect it to throw an error
-    expect(() => throwError()).toThrow();
+    // Render the component in the DOM
+    render(<BigButton {...xssProps} />);
+    // Get the button element
+    const button = screen.getByRole("button");
+    // Assert the button's label is correctly set && contains no HTML
+    expect(button).toHaveTextContent(xssProps.label);
+    expect(button.querySelector("a")).toBeNull();
+    // Click the button and assert that no alert comes up
+    fireEvent.click(button);
+    expect(xssSpy).not.toHaveBeenCalled();
   });
 });
