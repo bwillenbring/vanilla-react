@@ -1,25 +1,7 @@
-/**
- * ----------------------------------------------------------------
- * Write a function that takes a single number input, and returns a string representing that number in words.
- * ----------------------------------------------------------------
- * Assume:
- * ----------------------------------------------------------------
- * ✅ The input will always be an integer between -100 and 100 (inclusive)
- * ✅ The function does not have to handle numbers outside of this range
- * ✅ Expected output will always be lowercased English (no commas)
- * ✅ Expected output for values > 20 should be HYPHENATED (see examples)
- *
- * ----------------------------------------------------------------
- * Inputs   =>    expected outputs:
- * ----------------------------------------------------------------
- *    -12   =>    "negative twelve"
- *    -99   =>    "negative ninety-nine"
- *      0   =>    "zero"
- *     19   =>    "nineteen"  // not: "nine-teen"
- *     41   =>    "forty-one"
- * */
+// For the proctor: This is the function I (Ben W.) wrote to solve the problem. It's definitely not the only solution, and may not be the most elegant, but it works. I've included some comments to explain my thought process.
 
 const numberToWords = (num: number): string => {
+  // 1. Create an array of strings that can easily map integers 0-19
   const belowTwenty = [
     "zero",
     "one",
@@ -43,9 +25,8 @@ const numberToWords = (num: number): string => {
     "nineteen",
   ];
 
+  // 2. Create an array of strings for exact multiples of ten > 19 and < 100
   const tens = [
-    "",
-    "",
     "twenty",
     "thirty",
     "forty",
@@ -56,20 +37,34 @@ const numberToWords = (num: number): string => {
     "ninety",
   ];
 
-  const hundred = "hundred";
+  // 3. Create a string representation for exactly 100
+  const hundred = "one hundred";
 
+  // 4. Create a recursive function that converts a number to words
   const convert = (n: number): string => {
+    // Case 1: It's negative... prefix with "negative" and recursively call the function on the positive value
     if (n < 0) return `negative ${convert(-n)}`;
-    if (n < 20) return belowTwenty[n];
-    if (n < 100)
-      return (
-        tens[Math.floor(n / 10)] +
-        (n % 10 !== 0 ? `-${belowTwenty[n % 10]}` : "")
-      );
-    if (n === 100) return `one ${hundred}`;
-    return "";
-  };
+    // case 2: It's 0-19 — just return the value from the belowTwenty array
+    else if (n < 20) return belowTwenty[n];
+    // Case 3: Its exactly 100 — super easy
+    else if (n === 100) return hundred;
+    // Case 4: It's 20-99 — a little more complex
+    else {
+      // Split the number into a 2-item number array where the 1st item is the tens place and the 2nd item is the ones place
+      const arrayOfNums = n
+        .toString()
+        .split("")
+        .map((char) => parseInt(char));
 
+      // Find out what's in the tens and ones place
+      const [tensDigit, onesDigit] = arrayOfNums;
+      // If it's an even multiple of 10, return tens[tensDigit-2]
+      if (onesDigit === 0) return tens[tensDigit - 2];
+      // Otherwise, it's something like 21, 43, 45, etc. No problem: return tens[tensDigit-2] + "-" + belowTwenty[onesDigit]
+      return `${tens[tensDigit - 2]}-${belowTwenty[onesDigit]}`;
+    }
+  };
+  // 5. Return the result of calling the recursive function on the input number
   return convert(num);
 };
 
