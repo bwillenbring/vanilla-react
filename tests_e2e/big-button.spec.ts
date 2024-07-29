@@ -5,22 +5,14 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("clicks on button that displays shuffled array", async ({ page }) => {
-  // Dismiss the alert as soon as it appears
-  page.on("dialog", (dialog) => dialog.dismiss());
-
-  // Set up a waitForEvent on an alert
-  const dialogPromise = page.waitForEvent("dialog");
-
   // Get the button and click it and await the dialog
   const button = page.getByTestId("big-button-shuffler");
   await button.click();
-  const dialog = await dialogPromise;
-
-  // Assert the dialog type is alert and the message is one of the days
-  expect(dialog.type()).toBe("alert");
-  // For each item in expectedArray, expect it to be in the dialog message
+  const textArea = page.getByTestId("textarea-big-button-shuffler");
+  // Get the text content of the text area
+  const text = await textArea.textContent();
   for (const item of ["Larry", "Curly", "Moe"]) {
-    expect(dialog.message()).toContain(item);
+    expect(text).toContain(item);
   }
 });
 

@@ -3,16 +3,16 @@ const displayAlert = (): void => {
 }
 
 /**
- *
+ * Shuffles a copy of a given array without modifying the original array. If the Array is 1 or fewer elements, it returns the array as is.
  * @param array - An array of any type
  * @returns array - Returns a shuffled array
  */
 const shuffle = (array: Array<unknown>): Array<unknown> => {
   const shuffledArray = array.slice(); // Create a copy of the array
+  // If the array is 1 or fewer elements, return it
+  if (shuffledArray.length <= 1) return shuffledArray;
   let currentIndex = shuffledArray.length;
   let temporaryValue: unknown, randomIndex: number;
-  // If shuffledArray.length is too short to shuffle, return it
-  if (currentIndex <= 1) return shuffledArray;
 
   // While there are elements to shuffle
   while (currentIndex !== 0) {
