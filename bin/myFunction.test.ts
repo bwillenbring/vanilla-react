@@ -116,7 +116,7 @@ describe("numberToWords >= 0", () => {
 describe("numberToWords < 0", () => {
   for (let i = 1; i < integers.length; i++) {
     const negativeExpectedInt = -i;
-    const negativeExpectedString = `negative ${numberToWords(i)}`;
+    const negativeExpectedString = `negative ${integers[i]}`;
     // Write the test case title
     test(`${negativeExpectedInt} => ${negativeExpectedString}`, () => {
       expect(numberToWords(-i)).toBe(negativeExpectedString);
